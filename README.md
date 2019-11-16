@@ -55,11 +55,16 @@ The adjusted r-squared value indicates the percentage of the variance in the IMD
 *Predictor Significance*<br/>
 The final model included over 39 variables for predicting the IMDb rating of the twelve blockbuster movies. It was found that certain predictors have a more significant relationship with the IMDb ratings of movies than others. The significance of the predictors in the model is indicated by a low p-value (<0.01). The most significant predictors of the final model, which had a p-value <0.01 were the following:<br/>
 
+![imdb_1](https://user-images.githubusercontent.com/54965123/68997980-7cbcc600-087a-11ea-8e6d-01b47df7cf8e.PNG)
+
 *Model Performance* <br/>
 After testing the significance of the final model, the out-of-sample performance of the model was tested. A K-Fold Cross-Validation Test with 20 folds was used on the model to understand how the model performs with new data. The Leave-One-Out Cross-Validation Test and Validation Set-Test was not performed because it would be too computationally expensive due to the data size constraints. Furthermore, K-Fold Cross-Validation provides the right balance of accuracy and computational power required. A low value of k=20 was chosen to ensure that the model’s performance was tested thoroughly. <br/>
 
+
 The mean squared error obtained from the K-Fold Cross-Validation Test was 0.627. This implies that the theoretical average error of the model is 0.791. Therefore, on average, the model will deviate from the true IMDb rating of a new movie by ±0.79 ratings points. 
 The true test of the final model comes from its ability to predict the IMDb ratings of twelve upcoming blockbuster movies. The relevant data was collected for each predictor included in the model for seven of the twelve movies from the IMDb website. The predictions obtained from the model for the twelve movies was plotted with their current IMDb ratings (as of November 6, 2019) to observe the variation in the IMDb ratings per movie. Some movies did not have a rating on IMDb as of November 6, 2019 and therefore the ratings could not be plotted nor compared. Please note, the IMDb ratings of the movies can vary over time.<br/>
+
+![imdb_1a](https://user-images.githubusercontent.com/54965123/68998080-8dba0700-087b-11ea-849d-34c450441202.PNG)
 
 From the seven movies whose IMDb rating was available on IMDb, the errors between the actual IMDb ratings and the predicted IMDb ratings were all within the predicted average error range of ±0.79 ratings points. The model performed exceptionally well when predicting the IMDb ratings of the movies Waves and The Report as the error was only 0.03 and 0.15 rating points respectively. For the complete list of all twelve predicted IMDb rating points refer to Figure 4.4 in the appendix. <br/>
 
@@ -76,6 +81,34 @@ In conclusion, to build a model that predicts the IMDb ratings of twelve upcomin
 8.	Predicting on Test Dataset<br/><br/>
 The next steps in this project would be to add data that has greater diversity in the training stages to improve the model. For example, adding data that contains predictors of greater relevance to IMDB ratings could possibly help lower the mean square error of the model. Predictors like budget, certification, and number of premiers would have been key predictors to include in the model. However, the lack of consistency in the data available for these predictors made it challenging to include them in the final model.
 In conclusion, with the given data the final model is able to predict the IMDb ratings of the twelve upcoming blockbuster movies with a high-level of accuracy and is fairly robust to outliers. The final model address both issues of overfitting and underfitting while simultaneously capturing the full essence of the dataset accurately. <br/>
+
+# Appendix
+
+![imdb_2](https://user-images.githubusercontent.com/54965123/68997981-7cbcc600-087a-11ea-8753-7d165f9d0eb5.PNG)
+
+![imdb_3](https://user-images.githubusercontent.com/54965123/68997982-7cbcc600-087a-11ea-9572-e018455e3018.PNG)
+
+![imdb_4](https://user-images.githubusercontent.com/54965123/68997983-7d555c80-087a-11ea-9589-261b903e62ad.PNG)
+
+![imdb_5](https://user-images.githubusercontent.com/54965123/68997984-7d555c80-087a-11ea-9542-736b6eb6be0c.PNG)
+
+![imdb_6](https://user-images.githubusercontent.com/54965123/68997985-7d555c80-087a-11ea-8d3d-094c842211e8.PNG)
+
+![imdb_7](https://user-images.githubusercontent.com/54965123/68997986-7d555c80-087a-11ea-8c73-7bfe0472b7e2.PNG)
+
+![imdb_8](https://user-images.githubusercontent.com/54965123/68997987-7d555c80-087a-11ea-8ef0-c6aaa1cfc3e0.PNG)
+
+![imdb_9](https://user-images.githubusercontent.com/54965123/68997988-7d555c80-087a-11ea-8052-c45b75102f8a.PNG)
+
+![imdb_10](https://user-images.githubusercontent.com/54965123/68997989-7d555c80-087a-11ea-9ed0-fc0a9c0092f4.PNG)
+
+![imdb_11](https://user-images.githubusercontent.com/54965123/68997990-7d555c80-087a-11ea-8bff-795ef1580d7e.PNG)
+
+![imdb_12](https://user-images.githubusercontent.com/54965123/68997991-7dedf300-087a-11ea-8430-ceec2b29957a.PNG)
+
+![imdb_13](https://user-images.githubusercontent.com/54965123/68997992-7dedf300-087a-11ea-9877-7c0c99df0b68.PNG)
+
+![imdb_14](https://user-images.githubusercontent.com/54965123/68997993-7dedf300-087a-11ea-8248-3f7a046f6754.PNG)
 
 
 
