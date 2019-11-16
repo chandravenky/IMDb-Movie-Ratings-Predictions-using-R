@@ -1,0 +1,719 @@
+df = read.csv("/Users/SK-MBP/Documents/MMA/MGSC661/Midterm/Midterm_ShawshankRegression.csv")
+attach(df)
+colnames(df)[1]<-"imdbRating"
+
+#----------------------
+#--Data exploration
+#----------------------
+library(ggplot2)
+bin = c(0,2,4,6,8,10)
+
+#Language group
+ggplot(df, aes(x=Language.Classification1, y=imdbRating)) +
+        geom_boxplot(lwd=1.2) +geom_jitter(alpha=0.09, aes(color=cut(imdbRating,bin), ))+
+        theme_gray()+
+        labs(title="Rating vs Language group",x="Language group", y="imdBRating",
+             colour="imdbRating") + scale_color_hue(l=40, c=35)+
+        theme( plot.title = element_text(color = "black", size = 20, face = "bold", hjust= 0.5),
+               legend.title = element_text(color = "black", size = 18),
+               legend.text = element_text(color = "black", size = 14, face="bold"),
+               axis.text=element_text(size=12, face="bold"),
+               axis.title=element_text(size=14,face="bold"),
+               legend.position="bottom")
+
+#1 Release year
+ggplot(df, aes(x=release_year, fill= cut(imdbRating,bin))) +
+        geom_histogram(color="black")+
+        geom_vline(data=df, aes(xintercept=mean(release_year)), color="red",size=1.5,
+                   linetype="dashed")+
+        labs(title="Release Year - Frequency distribution",x="Release Year", y = "Frequency")+
+        theme_classic() +
+        scale_fill_discrete(name = "imdbRating",
+                            labels=c("<2", "2 to 4", "4 to 6", "6 to 8", "8-10"))+
+        theme( plot.title = element_text(color = "black", size = 20, face = "bold", hjust= 0.5),
+               legend.title = element_text(color = "black", size = 18),
+               legend.text = element_text(color = "black", size = 14, face="bold"),
+               axis.text=element_text(size=12, face="bold"),
+               axis.title=element_text(size=14,face="bold"),
+               legend.position="bottom")
+
+#Release month
+ggplot(df, aes(x=release_month, fill= cut(imdbRating,bin))) +
+        geom_histogram(color="black")+
+        geom_vline(data=df, aes(xintercept=mean(release_month)), color="red",size=1.5,
+                   linetype="dashed")+
+        labs(title="Release month - Frequency distribution",x="Release Month", y = "Frequency")+
+        theme_classic() +
+        scale_fill_discrete(name = "imdbRating",
+                            labels=c("<2", "2 to 4", "4 to 6", "6 to 8", "8-10"))+
+        theme( plot.title = element_text(color = "black", size = 20, face = "bold", hjust= 0.5),
+               legend.title = element_text(color = "black", size = 18),
+               legend.text = element_text(color = "black", size = 14, face="bold"),
+               axis.text=element_text(size=12, face="bold"),
+               axis.title=element_text(size=14,face="bold"),
+               legend.position="bottom")
+
+#Duration minutes
+ggplot(df, aes(x=duration_minutes, fill= cut(imdbRating,bin))) +
+        geom_histogram(color="black")+
+        geom_vline(data=df, aes(xintercept=mean(duration_minutes)), color="red",size=1.5,
+                   linetype="dashed")+
+        labs(title="Duration minutes - Frequency distribution",x="Duration minutes", y = "Frequency")+
+        theme_classic() +
+        scale_fill_discrete(name = "imdbRating",
+                            labels=c("<2", "2 to 4", "4 to 6", "6 to 8", "8-10"))+
+        theme( plot.title = element_text(color = "black", size = 20, face = "bold", hjust= 0.5),
+               legend.title = element_text(color = "black", size = 18),
+               legend.text = element_text(color = "black", size = 14, face="bold"),
+               axis.text=element_text(size=12, face="bold"),
+               axis.title=element_text(size=14,face="bold"),
+               legend.position="bottom")
+
+#Total number of languages #sum of dummified language columns in df
+
+ggplot(df, aes(x=languages, fill= cut(imdbRating,bin))) +
+        geom_histogram(color="black")+
+        geom_vline(data=df, aes(xintercept=mean(languages)), color="red",size=1.5,
+                   linetype="dashed")+
+        labs(title="Rating vs Total #languages",x="Total #languages", y = "Frequency")+
+        theme_classic() +
+        scale_fill_discrete(name = "imdbRating",
+                            labels=c("<2", "2 to 4", "4 to 6", "6 to 8", "8-10"))+
+        theme( plot.title = element_text(color = "black", size = 20, face = "bold", hjust= 0.5),
+               legend.title = element_text(color = "black", size = 18),
+               legend.text = element_text(color = "black", size = 14, face="bold"),
+               axis.text=element_text(size=12, face="bold"),
+               axis.title=element_text(size=14,face="bold"),
+               legend.position="bottom")
+
+#Main actor 2 star meter
+ggplot(df, aes(x=main_actor2_star_meter, y=imdbRating)) +
+        geom_jitter(alpha=0.09, aes(color=cut(imdbRating,bin), ))+
+        theme_gray()+
+        labs(title="Rating vs Star Meter (Actor 2)",x="Main Actor 2 star meter", y="imdBRating",
+             colour="imdbRating") + scale_color_hue(l=40, c=35)+
+        theme( plot.title = element_text(color = "black", size = 20, face = "bold", hjust= 0.5),
+               legend.title = element_text(color = "black", size = 18),
+               legend.text = element_text(color = "black", size = 14, face="bold"),
+               axis.text=element_text(size=12, face="bold"),
+               axis.title=element_text(size=14,face="bold"),
+               legend.position="bottom")
+
+#Main actor 3 star meter
+ggplot(df, aes(x=main_actor3_star_meter, y=imdbRating)) +
+        geom_jitter(alpha=0.09, aes(color=cut(imdbRating,bin), ))+
+        theme_gray()+
+        labs(title="Rating vs Star Meter (Actor 3)",x="Main Actor 3 star meter", y="imdBRating",
+             colour="imdbRating") + scale_color_hue(l=40, c=35)+
+        theme( plot.title = element_text(color = "black", size = 20, face = "bold", hjust= 0.5),
+               legend.title = element_text(color = "black", size = 18),
+               legend.text = element_text(color = "black", size = 14, face="bold"),
+               axis.text=element_text(size=12, face="bold"),
+               axis.title=element_text(size=14,face="bold"),
+               legend.position="bottom")
+
+#total number of actors
+ggplot(df, aes(x=total_number_of_actors, fill= cut(imdbRating,bin))) +
+        geom_histogram(color="black")+
+        geom_vline(data=df, aes(xintercept=mean(total_number_of_actors)), color="red",size=1.5,
+                   linetype="dashed")+
+        labs(title="# Actors - Frequency distribution",x="# Actors", y = "Frequency")+
+        theme_classic() +
+        scale_fill_discrete(name = "imdbRating",
+                            labels=c("<2", "2 to 4", "4 to 6", "6 to 8", "8-10"))+
+        theme( plot.title = element_text(color = "black", size = 20, face = "bold", hjust= 0.5),
+               legend.title = element_text(color = "black", size = 18),
+               legend.text = element_text(color = "black", size = 14, face="bold"),
+               axis.text=element_text(size=12, face="bold"),
+               axis.title=element_text(size=14,face="bold"),
+               legend.position="bottom")
+
+df$total_number_of_directors=as.factor(df$total_number_of_directors)
+
+#Total number of directors
+ggplot(df, aes(x=total_number_of_directors, y=imdbRating)) +
+        geom_boxplot(lwd=1.2) +
+        theme_gray()+
+        labs(title="Rating vs Total #directors",y="Total #directors", x="",
+             colour="imdbRating") + scale_color_hue(l=40, c=35)+
+        theme( plot.title = element_text(color = "black", size = 20, face = "bold", hjust= 0.5),
+               legend.title = element_text(color = "black", size = 18),
+               legend.text = element_text(color = "black", size = 14, face="bold"),
+               axis.text=element_text(size=12, face="bold"),
+               axis.title=element_text(size=14,face="bold"),
+               legend.position="bottom")
+
+#Total number of producers
+df$total_number_of_producers=as.factor(df$total_number_of_producers)
+
+ggplot(df, aes(x=total_number_of_producers, y=imdbRating)) +
+        geom_boxplot(lwd=1.2)+
+        theme_gray()+
+        labs(title="Rating vs Total #producers",y="Total #producers", x=" ",
+             colour="imdbRating") + scale_color_hue(l=40, c=35)+
+        theme( plot.title = element_text(color = "black", size = 20, face = "bold", hjust= 0.5),
+               legend.title = element_text(color = "black", size = 18),
+               legend.text = element_text(color = "black", size = 14, face="bold"),
+               axis.text=element_text(size=12, face="bold"),
+               axis.title=element_text(size=14,face="bold"),
+               legend.position="bottom")
+
+#total number of production companies
+ggplot(df, aes(x=total_number_of_production_companies, fill= cut(imdbRating,bin))) +
+        geom_histogram(color="black")+
+        geom_vline(data=df, aes(xintercept=mean(total_number_of_production_companies)), color="red",size=1.5,
+                   linetype="dashed")+
+        labs(title="# Production companies - Frequency distribution",x="# Production companies", y = "Frequency")+
+        theme_classic() +
+        theme( plot.title = element_text(color = "black", size = 20, face = "bold", hjust= 0.5),
+               legend.title = element_text(color = "black", size = 18),
+               legend.text = element_text(color = "black", size = 14, face="bold"),
+               axis.text=element_text(size=12, face="bold"),
+               axis.title=element_text(size=14,face="bold"),
+               legend.position="bottom")+
+        scale_fill_discrete(name = "imdbRating")
+
+#--Other variables
+
+#Main actor 2 star meter
+ggplot(df, aes(x=main_actor1_star_meter, y=imdbRating)) +
+        geom_jitter(alpha=0.09, aes(color=cut(imdbRating,bin), ))+
+        theme_gray()+
+        labs(title="Rating vs Star Meter (Actor 1)",x="Main Actor 1 star meter", y="imdBRating",
+             colour="imdbRating") + scale_color_hue(l=40, c=35)+
+        theme( plot.title = element_text(color = "black", size = 20, face = "bold", hjust= 0.5),
+               legend.title = element_text(color = "black", size = 18),
+               legend.text = element_text(color = "black", size = 14, face="bold"),
+               axis.text=element_text(size=12, face="bold"),
+               axis.title=element_text(size=14,face="bold"),
+               legend.position="bottom")
+
+#total number of production countries
+
+ggplot(df, aes(x=total_number_of_production_countries, fill= cut(imdbRating,bin))) +
+        geom_histogram(color="black")+
+        geom_vline(data=df, aes(xintercept=mean(total_number_of_production_countries)), color="red",size=1.5,
+                   linetype="dashed")+
+        labs(title="# Production countries - Frequency distribution",x="# Production countries", y = "Frequency")+
+        theme_classic() +
+        scale_fill_discrete(name = "imdbRating",
+                            labels=c("<2", "2 to 4", "4 to 6", "6 to 8", "8-10"))+
+        theme( plot.title = element_text(color = "black", size = 20, face = "bold", hjust= 0.5),
+               legend.title = element_text(color = "black", size = 18),
+               legend.text = element_text(color = "black", size = 14, face="bold"),
+               axis.text=element_text(size=12, face="bold"),
+               axis.title=element_text(size=14,face="bold"),
+               legend.position="bottom")
+
+#total number of genres
+
+ggplot(df, aes(x=total_number_of_genres, fill= cut(imdbRating,bin))) +
+        geom_histogram(color="black")+
+        geom_vline(data=df, aes(xintercept=mean(total_number_of_genres)), color="red",size=1.5,
+                   linetype="dashed")+
+        labs(title="# Total genres - Frequency distribution",x="# Production countries", y = "Frequency")+
+        theme_classic() +
+        scale_fill_discrete(name = "imdbRating",
+                            labels=c("<2", "2 to 4", "4 to 6", "6 to 8", "8-10"))+
+        theme( plot.title = element_text(color = "black", size = 20, face = "bold", hjust= 0.5),
+               legend.title = element_text(color = "black", size = 18),
+               legend.text = element_text(color = "black", size = 14, face="bold"),
+               axis.text=element_text(size=12, face="bold"),
+               axis.title=element_text(size=14,face="bold"),
+               legend.position="bottom")
+
+#Genre transpose
+detach(df)
+genre = read.csv("genre transpose.csv") #sum of dummified genres in df
+
+ggplot(data= genre, aes(x=Genre, y=Count)) + geom_bar(stat = "identity") + ggtitle("Distribution of genres")+
+        xlab("Genre") + ylab("Frequency")+
+        theme( plot.title = element_text(color = "black", size = 20, face = "bold", hjust= 0.5),
+               legend.title = element_text(color = "black", size = 18),
+               legend.text = element_text(color = "black", size = 14, face="bold"),
+               axis.text=element_text(size=10, face="bold"),
+               axis.title=element_text(size=14,face="bold"),
+               legend.position="bottom")
+
+#Dummy variables for females
+
+female = read.csv("female dummy numbers.csv") #sum of dummified columns in df
+
+ggplot(data= female, aes(x=Label, y=Count)) + geom_bar(stat = "identity") + ggtitle("Distribution of dummy variables (females) ")+
+        xlab("Genre") + ylab("Frequency")+
+        theme( plot.title = element_text(color = "black", size = 20, face = "bold", hjust= 0.5),
+               legend.title = element_text(color = "black", size = 18),
+               legend.text = element_text(color = "black", size = 14, face="bold"),
+               axis.text=element_text(size=14, face="bold"),
+               axis.title=element_text(size=14,face="bold"),
+               legend.position="bottom")
+
+
+## Correlation
+
+attach(df)
+library(dplyr)
+
+sub=dplyr::select(df,imdbRating,budget,release_month,release_year,duration_minutes,total_number_of_spoken_languages,total_number_of_genres,main_actor1_star_meter,main_actor2_star_meter,main_actor3_star_meter,total_number_of_actors,total_number_of_directors,total_number_of_producers,total_number_of_production_companies,total_number_of_production_countries)
+cormat = round(cor(sub),2)
+cormat
+
+library(reshape2)
+melted_cormat= melt(cormat)
+head(melted_cormat)
+library(ggplot2)
+
+ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=value)) + 
+        geom_tile()
+# Get lower triangle of the correlation matrix
+get_lower_tri<-function(cormat){
+        cormat[upper.tri(cormat)] <- NA
+        return(cormat)
+}
+# Get upper triangle of the correlation matrix
+get_upper_tri <- function(cormat){
+        cormat[lower.tri(cormat)]<- NA
+        return(cormat)
+}
+upper_tri <- get_upper_tri(cormat)
+upper_tri
+
+
+# Melt the correlation matrix
+library(reshape2)
+melted_cormat <- melt(upper_tri, na.rm = TRUE)
+# Heatmap
+library(ggplot2)
+ggplot(data = melted_cormat, aes(Var2, Var1, fill = value))+
+        geom_tile(color = "white")+
+        scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
+                             midpoint = 0, limit = c(-1,1), space = "Lab", 
+                             name="Pearson\nCorrelation") +
+        theme_minimal()+ 
+        theme(axis.text.x = element_text(angle = 45, vjust = 1, 
+                                         size = 12, hjust = 1))+
+        coord_fixed()
+
+
+reorder_cormat <- function(cormat){
+        # Use correlation between variables as distance
+        dd <- as.dist((1-cormat)/2)
+        hc <- hclust(dd)
+        cormat <-cormat[hc$order, hc$order]
+}
+
+# Reorder the correlation matrix
+cormat <- reorder_cormat(cormat)
+upper_tri <- get_upper_tri(cormat)
+
+
+
+# Melt the correlation matrix
+melted_cormat <- melt(upper_tri, na.rm = TRUE)
+# Create a ggheatmap
+ggheatmap <- ggplot(melted_cormat, aes(Var2, Var1, fill = value))+
+        geom_tile(color = "white")+
+        scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
+                             midpoint = 0, limit = c(-1,1), space = "Lab", 
+                             name="Pearson\nCorrelation") +
+        theme_minimal()+ # minimal theme
+        theme(axis.text.x = element_text(angle = 45, vjust = 1, 
+                                         size = 12, hjust = 1))+
+        coord_fixed()
+# Print the heatmap
+print(ggheatmap)
+
+ggheatmap + 
+        geom_text(aes(Var2, Var1, label = value), color = "black", size = 4) +
+        theme(
+                axis.title.x = element_blank(),
+                axis.title.y = element_blank(),
+                panel.grid.major = element_blank(),
+                panel.border = element_blank(),
+                panel.background = element_blank(),
+                axis.ticks = element_blank(),
+                legend.justification = c(1, 0),
+                legend.position = c(0.6, 0.7),
+                legend.direction = "horizontal")+
+        guides(fill = guide_colorbar(barwidth = 7, barheight = 1,
+                                     title.position = "top", title.hjust = 0.5))
+
+
+
+
+
+
+#----------------------
+#--PREDICTOR ANALYSIS
+#----------------------
+
+
+
+#####Non-Categorical variables that we chose
+
+
+df_subset = df[,c("imdbRating","release_month",
+                  "release_year", "duration_minutes",
+                  "total_number_of_spoken_languages",
+                  "main_actor1_star_meter", "main_actor2_star_meter", "main_actor3_star_meter",
+                  "total_number_of_actors", "total_number_of_directors",
+                  "total_number_of_producers", "total_number_of_production_companies",
+                  "total_number_of_production_countries", "total_number_of_genres")]
+
+#####Test for collinearity
+#Standardize 
+# library(psycho)
+# library(tidyverse)
+# 
+# df_subset = standardize(df_subset,,) 
+
+# df_subset = scale(df_subset)
+# df_subset = data.frame(df_subset)
+# rating = df_subset$imdbRating
+# mean(rating)
+
+library(psych)
+pairs.panels(df_subset, pch=".", gap=0) 
+
+                        #----------> NO collinearity
+
+##Non Linear Predictor
+
+non_lin_model_test = lm(imdbRating~release_month+
+                                release_year+ duration_minutes+
+                                total_number_of_spoken_languages+
+                                main_actor1_star_meter+ main_actor2_star_meter+ main_actor3_star_meter+
+                                total_number_of_actors+ total_number_of_directors+
+                                total_number_of_producers+ total_number_of_production_companies+
+                                total_number_of_production_countries+ total_number_of_genres)
+
+
+###Colinearity
+library(car)
+vif_results = vif(non_lin_model_test)
+library(stargazer)
+stargazer(vif_results, type = "html")
+
+#****************************************************************************************
+#Heteroskedasticity
+#****************************************************************************************
+
+#-----release_year-----
+year_lm = lm(imdbRating~release_year)
+plot(predict(year_lm), residuals(year_lm))
+abline(0,0, lwd=3, lty=2, col="red")
+ncvTest(year_lm) #ncv test #p 2.2e-16 #Yeshetero
+
+#-----Day of the week-----
+dotw_lm = lm(imdbRating~Day.of.the.Week)
+plot(predict(dotw_lm), residuals(dotw_lm))
+abline(0,0, lwd=3, lty=2, col="red")
+ncvTest(dotw_lm) #ncv test #p 0.2891
+
+#-----duration minutes-----
+dur_mins_lm = lm(imdbRating~duration_minutes)
+plot(predict(dur_mins_lm), residuals(dur_mins_lm))
+abline(0,0, lwd=3, lty=2, col="red")
+ncvTest(dur_mins_lm) #ncv test #P 2.22e-16 #Yes hetero
+
+#-----Language Classification-----
+lang_class_lm = lm(imdbRating~Language.Classification1)
+plot(predict(lang_class_lm), residuals(lang_class_lm))
+abline(0,0, lwd=3, lty=2, col="red")
+ncvTest(lang_class_lm)#ncv test #No this is dummy
+
+#-----total number of spoken languages-----
+languages_lm = lm(imdbRating~total_number_of_spoken_languages)
+plot(predict(languages_lm), residuals(languages_lm))
+abline(0,0, lwd=3, lty=2, col="red")
+
+ncvTest(languages_lm)#ncv test #p is 0.001306 #yes hetero
+
+#-----main actor 1 star meter-----
+actor1_meter_lm = lm(imdbRating~main_actor1_star_meter)
+plot(predict(actor1_meter_lm), residuals(actor1_meter_lm))
+abline(0,0, lwd=3, lty=2, col="red")
+
+ncvTest(actor1_meter_lm) #ncv test #p is 0.99 #No hetero
+
+#-----main actor 2 star meter-----
+actor2_meter_lm = lm(imdbRating~main_actor2_star_meter)
+plot(predict(actor2_meter_lm), residuals(actor2_meter_lm))
+abline(0,0, lwd=3, lty=2, col="red")
+
+
+ncvTest(actor2_meter_lm) #ncv test #p is 0.1466 #No 
+
+#-----main actor 3 star meter-----
+actor3_meter_lm = lm(imdbRating~main_actor3_star_meter)
+plot(predict(actor3_meter_lm), residuals(actor3_meter_lm))
+abline(0,0, lwd=3, lty=2, col="red")
+
+
+ncvTest(actor3_meter_lm) #ncv test #p is 0.3 no hetero
+
+#-----total number of actors-----
+actors_tot_lm = lm(imdbRating~total_number_of_actors)
+plot(predict(actors_tot_lm), residuals(actors_tot_lm))
+abline(0,0, lwd=3, lty=2, col="red")
+
+ncvTest(actors_tot_lm) #ncv test #P is 0.40 #Not hetero
+
+
+#-----total number of directors-----
+directors_tot_lm = lm(imdbRating~total_number_of_directors)
+plot(predict(directors_tot_lm), residuals(directors_tot_lm))
+abline(0,0, lwd=3, lty=2, col="red")
+
+
+ncvTest(directors_tot_lm) #ncv test #P is 0.05 #hetero
+
+#-----total number of producers-----
+producers_tot_lm = lm(imdbRating~total_number_of_producers)
+plot(predict(producers_tot_lm), residuals(producers_tot_lm))
+abline(0,0, lwd=3, lty=2, col="red")
+
+
+ncvTest(producers_tot_lm) #ncv test #p is 0.0017 #hetero
+
+#-----total number of production companies-----
+prod_co_tot_lm = lm(imdbRating~total_number_of_production_companies)
+plot(predict(prod_co_tot_lm), residuals(prod_co_tot_lm))
+abline(0,0, lwd=3, lty=2, col="red")
+
+
+ncvTest(prod_co_tot_lm) #ncv test # p is close to 0.05 #Hetero
+
+#-----main production country-----
+main_prod_country_lm = lm(imdbRating~main_production_country)
+plot(predict(main_prod_country_lm), residuals(main_prod_country_lm))
+abline(0,0, lwd=3, lty=2, col="red")
+
+
+ncvTest(main_prod_country_lm) #ncv test #this is dummy
+
+#-----total numer of production countries-----
+prod_country_tot_lm = lm(imdbRating~total_number_of_production_countries)
+plot(predict(prod_country_tot_lm), residuals(prod_country_tot_lm))
+abline(0,0, lwd=3, lty=2, col="red")
+
+
+ncvTest(prod_country_tot_lm) #ncv test #p is 0.8 not hetero
+
+#-----total number of genres-----
+genres_tot_lm = lm(imdbRating~total_number_of_genres)
+plot(predict(genres_tot_lm), residuals(genres_tot_lm))
+abline(0,0, lwd=3, lty=2, col="red")
+
+
+ncvTest(genres_tot_lm)#ncv test #This is p is 5.5e-6 It is hetero
+
+####Linear Predictive Power
+summary(month_lm) #
+#Hetero 
+coeftest(month_lm, vcov = vcovHC(month_lm, type="HC1")) #P is 7.313e-12 now more significant
+summary(year_lm)
+#Heterofix
+coeftest(year_lm, vcov = vcovHC(year_lm, type="HC1")) #P is significant
+
+summary(dotw_lm) #k #all significant
+summary(dur_mins_lm)
+#heterofix
+coeftest(dur_mins_lm, vcov = vcovHC(dur_mins_lm, type="HC1")) # P remains significant
+summary(lang_class_lm) #Significant #Deutsch #FranÃÆÃÂ§ais
+summary(languages_lm)
+#Heterofix
+coeftest(languages_lm, vcov = vcovHC(languages_lm, type="HC1")) # P remains significant
+
+summary(actor1_meter_lm) #p is 0.397
+summary(actor2_meter_lm) #p is 0.0135
+summary(actor3_meter_lm) #p is 0.0201
+summary(actors_tot_lm) #p is 2.2e-16 significant
+summary(directors_tot_lm) #p is .0843
+coeftest(directors_tot_lm, vcov = vcovHC(directors_tot_lm, type="HC1")) # P becomes significant is 0.03069
+
+summary(producers_tot_lm)
+coeftest(producers_tot_lm, vcov = vcovHC(producers_tot_lm, type="HC1")) # P is not significant is 0.4378
+
+summary(prod_co_tot_lm)#Not significant p is 0.339
+coeftest(prod_co_tot_lm, vcov = vcovHC(prod_co_tot_lm, type="HC1")) # P is not significant is 0.3698
+
+summary(main_prod_country_lm) #This is significant 2.63e-14
+summary(prod_country_tot_lm) #Not significant p is 0.7881
+summary(genres_tot_lm)
+coeftest(genres_tot_lm, vcov = vcovHC(genres_tot_lm, type="HC1")) # P is significant is 0.00151
+colnames(df)
+
+
+
+
+########Correct Outliers
+outlier_result = outlierTest(non_lin_model_test)
+stargazer(outlier_result, type = "html")
+
+df2=df_subset[-c(4653,4774,2223,5027,493,2775,2652,771,4425,3309), ]
+df4=df[-c(4653,4774,2223,5027,493,2775,2652,771,4425,3309), ]
+
+non_lin_model_test_noout = lm(imdbRating~release_month+
+                                      release_year+ duration_minutes+
+                                      total_number_of_spoken_languages+
+                                      main_actor1_star_meter+ main_actor2_star_meter+ main_actor3_star_meter+
+                                      total_number_of_actors+ total_number_of_directors+
+                                      total_number_of_producers+ total_number_of_production_companies+
+                                      total_number_of_production_countries+ total_number_of_genres, data = df2)
+
+boot.fn=function(data,index)
+return(coef(non_lin_model_test_noout,data=df2,subset=index))
+boot.fn(df2)
+summary(non_lin_model_test)
+coeftest(non_lin_model_test_noout, vcov=vcovHC(non_lin_model_test_noout, type="HC1"))
+summary(non_lin_model_test)
+
+
+#VIF test and do when we have a model but for now nothing is collinear
+require(psych)
+vif(non_lin_model_test_noout)
+
+
+#Non-Linearity residual Plots
+library(car)
+residualPlots(non_lin_model_test_noout, main = "Residual Plots for Potential Predictors")
+stargazer(residual_test, type = "html")
+
+
+
+
+####Forward Subset Selection
+library(leaps)
+selfwd=regsubsets(imdbRating~release_month+
+                          release_year+ duration_minutes+
+                          total_number_of_spoken_languages+
+                          main_actor1_star_meter+ main_actor2_star_meter+ main_actor3_star_meter+
+                          total_number_of_actors+ total_number_of_directors+
+                          total_number_of_producers+ total_number_of_production_companies+
+                          total_number_of_production_countries+ total_number_of_genres,nvmax = 15, df2, method="forward")
+summary.sel=summary(selfwd)
+summary.sel
+plot(summary.sel$adjr2 ,xlab="Number of Variables ", ylab="Adjusted RSq",type="l")
+which.max(summary.sel$adjr2)
+max(summary.sel$adjr2)
+
+
+###Playing with polynomials
+library(boot)
+best = c(0,0,0,0,0,0,0)
+max = 100000
+for(a1 in 2:5){
+        for (a2 in 2:5){
+                for(a3 in 2:5){
+                        for(a4 in 2){
+                                for(a5 in 2:5){
+                                        for(a6 in 2:5){
+                                                for(a7 in 2){
+                                                                model2 = glm(imdbRating ~ release_month+poly(release_year,a1)+
+                                                                                 poly(duration_minutes,a2)+total_number_of_spoken_languages+
+                                                                                 main_actor2_star_meter+main_actor3_star_meter+poly(total_number_of_actors,a3)+
+                                                                                 poly(total_number_of_directors,a4) + poly(total_number_of_producers, a5)+
+                                                                                 poly(total_number_of_production_companies,a6)+
+                                                                                 poly(total_number_of_genres,a7))
+                                                                cv.error=cv.glm(df2,model2,K=20)$delta[1]
+                                                                if(cv.error < max){
+                                                                        max = cv.error
+                                                                        best = c(a1,a2,a3,a4,a5,a6,a7)
+                                                        }
+                                                }
+                                
+                                        }
+                                }
+                        }
+                }
+        }
+}
+best
+max
+
+library(splines)
+q_year1=quantile(Day, c(0.30))
+q_year2=quantile(Day, c(0.60))
+
+model3 = glm(imdbRating ~ release_month+poly(release_year,3)+
+                      poly(duration_minutes,2)+total_number_of_spoken_languages+
+                      main_actor2_star_meter+main_actor3_star_meter+poly(total_number_of_actors,2)+
+                      poly(total_number_of_directors,2) + poly(total_number_of_producers, 4)+
+                      poly(total_number_of_production_companies,3)+
+                      poly(total_number_of_genres,2)+Language.Classification1
+                  +genre_action+genre_adventure+genre_animation+
+                     genre_biography+genre_comedy+genre_crime+
+                     genre_documentary+genre_drama+genre_family+
+                     genre_fantasy+genre_filmnoir+genre_history+
+                     genre_horror+genre_music+genre_musical+
+                     genre_mystery+genre_realitytv+genre_romance+
+                     genre_scifi+genre_shortfilm+genre_sport+
+                     genre_thriller+genre_war + main_actor1_is_female + main_actor2_is_female + +main_production_country  +(genre_drama*genre_romance) + (genre_drama*genre_thriller)+
+                      (genre_animation*genre_fantasy)+
+                      (genre_drama*genre_sport)+
+                      (genre_fantasy*genre_adventure) +(main_actor2_is_female*main_actor2_star_meter)  +(main_actor3_is_female*main_actor3_star_meter)
+              +(release_year*genre_drama)+
+                      (release_year*genre_comedy)+
+                      (release_year*genre_action)+(release_year*main_actor2_star_meter)+(release_year*Language.Classification1), data  = df4)
+
+
+cv.error = cv.glm(df4,model3,K=20)$delta[1]
+cv.error
+detach(df)
+detach(df2)
+detach(df4)
+detach(df_subset)
+test = read.csv("/Users/SK-MBP/Documents/MMA/MGSC661/Midterm/Predictions - Sheet.csv")
+attach(test)
+prediction = predict(model3,test)
+prediction
+
+
+
+
+
+
+
+#-----SPLINES-----
+# library(splines)
+# q_min1=quantile(release_year, c(0.30))
+# q_min2=quantile(release_year, c(0.60))
+# 
+# model4 = glm(imdbRating ~ release_month+bs(release_year,knots=c(q_min2), degree=1)+
+#                      poly(duration_minutes,2)+total_number_of_spoken_languages+
+#                      main_actor2_star_meter+main_actor3_star_meter+poly(total_number_of_actors,2)+
+#                      poly(total_number_of_directors,2) + poly(total_number_of_producers, 4)+
+#                      poly(total_number_of_production_companies,3)+
+#                      poly(total_number_of_genres,2)
+#              +genre_action+genre_adventure+genre_animation+
+#                      genre_biography+genre_comedy+genre_crime+
+#                      genre_documentary+genre_drama+genre_family+
+#                      genre_fantasy+genre_filmnoir+genre_history+
+#                      genre_horror+genre_music+genre_musical+
+#                      genre_mystery+genre_realitytv+genre_romance+
+#                      genre_scifi+genre_shortfilm+genre_sport+
+#                      genre_thriller+genre_war + main_actor1_is_female + main_actor2_is_female + +main_production_country  +(genre_drama*genre_romance) + (genre_drama*genre_thriller)+
+#                      (genre_animation*genre_fantasy)+
+#                      (genre_drama*genre_sport)+
+#                      (genre_fantasy*genre_adventure) +(main_actor2_is_female*main_actor2_star_meter)  +(main_actor3_is_female*main_actor3_star_meter)
+#              +(release_year*genre_drama)+
+#                      (release_year*genre_comedy)+
+#                      (release_year*genre_action)+(release_year*main_actor2_star_meter)+(release_year*Language.Classification1), data  = df4)
+# 
+# 
+# cv.error = cv.glm(df4,model4,K=20)$delta[1]
+# cv.error
+
+# require(lmtest)
+# require(plm)
+# coeftest(model3, vcov=vcovHC(model3, type="HC1"))
+# library(boot)
+# boot.fn=function(data,index)
+# return(coef(model3, data  = df4,subset=index))
+# modelk = lm(imdbRating~total_number_of_spoken_languages)
+# summary(modelk)
+
+summary(model3)
+library(stargazer)
+stargazer(model3, type = "html")
